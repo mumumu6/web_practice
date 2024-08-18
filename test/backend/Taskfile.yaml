@@ -1,0 +1,43 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -o myapp main.go
+    desc: "Build the Go application"
+  
+  test:
+    cmds:
+      - go test ./...
+    desc: "Run all tests"
+  
+  up:
+    desc: "Bring up Docker containers"
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: "Stop Docker containers"
+    cmds:
+      - docker compose down
+
+  run:
+    deps: [build]
+    cmds:
+      - ./myapp
+    desc: "Run the Go application"
+
+  lint:
+    cmds:
+      - golangci-lint run
+    desc: "Run the linter"
+
+  logs:
+    desc: "View Docker container logs"
+    cmds:
+      - docker compose logs -f
+
+  db: 
+    desc: "Access MySQL container"
+    cmds:
+      - docker compose exec mysql bash
