@@ -1,14 +1,11 @@
-# Use an official Python runtime as the base image
+# ベースイメージとして Golang を使用
 FROM golang:1.22
 
-# Set the working directory in the container
-WORKDIR /app
+# 作業ディレクトリを設定
+WORKDIR /go/app
 
-# Install the dependencies
+# 必要なパッケージをインストール
 RUN go install github.com/air-verse/air@latest
 
-# Expose the port on which the application will run
-EXPOSE 8081
-
-# Define the command to run the application
+# コンテナが起動したときに実行するコマンドを指定
 CMD ["air", "-c", ".air.toml"]

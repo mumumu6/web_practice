@@ -16,9 +16,9 @@
 
     <!-- 削除するところ -->
     <div class="form-container">
-      <h3>Enter ID to Delete</h3>
+      <h3>Enter Name to Delete</h3>
       <form @submit.prevent="deleteForm">
-        <label for="digit">ID</label>
+        <label for="digit">Name</label>
         <input
           type="number"
           id="digit"
