@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: leaQ API
+  version: 1.0.0
+paths:
+  /api/getrecentposts:
+    get:
+      summary: 最新の投稿を10件取得する
+      responses:
+        '200':
+          description: Successful response
+          content:  
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    author_id:
+                      type: string
+                    description:
+                      type: string
+                    image_name:
+                      type: string # 画像の名前だけを返す,画像はgetimageで取得
+                    tags:
+                      type: array
+                      items:
+                        type: string
+        '500':
+          description: Internal Server Error
+  /api/{user_id}/posts:
+    get:
+      summary: 各ユーザーの投稿を最新のものから10件取得する
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    author_id:
+                      type: string
+                    description:
+                      type: string
+                    image_name:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+        '500':
+          description: Internal Server Error
+  /api/images/{image_name}:
+    get:
+      summary: 画像の名前から画像を取得する
+      parameters:
+        - name: image_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/octet-stream:  
+              schema:
+                type: string
+                format: binary
+        '500':
+          description: Internal Server Error
+  /api/posts:
+    post:
+      summary: 投稿用のapi、投稿者のid、説明、タグ、画像を送る
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                author_id:
+                  type: string
+                description:
+                  type: string
+                tags:
+                  type: string # Json文字列で受け取るからstring?
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  author_id:
+                    type: string
+                  description:
+                    type: string
+                  image_name:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+        '500':
+          description: Internal Server Error
